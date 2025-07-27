@@ -3,14 +3,13 @@ FROM n8nio/n8n:latest
 # Passer en root pour installer les paquets
 USER root
 
-# Mettre à jour les paquets et installer FFmpeg + Poppler + ImageMagick
-RUN apt-get update && apt-get install -y \
+# Alpine Linux utilise apk au lieu d'apt-get
+RUN apk update && apk add --no-cache \
     ffmpeg \
     poppler-utils \
     imagemagick \
     ghostscript \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/cache/apk/*
 
 # Revenir à l'utilisateur n8n
 USER node
