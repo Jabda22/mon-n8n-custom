@@ -5,22 +5,26 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Log in to GitHub Container Registry
-      uses: docker/login-action@v2
-      with:
-        registry: ghcr.io
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-    
-    - name: Build and push Docker image
-      uses: docker/build-push-action@v4
-      with:
-        context: .
-        push: true
-        tags: ghcr.io/jabda22/mon-n8n-custom:latest
+      - uses: actions/checkout@v3
+      
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: ghcr.io/jabda22/mon-n8n-custom:latest
